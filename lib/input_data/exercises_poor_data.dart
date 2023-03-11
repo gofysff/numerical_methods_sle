@@ -13,13 +13,13 @@ final List<List<double>> matrix2 = [
   [6, 2, 20, 37]
 ];
 
-final List<int> b2 = [18, -12, -103, -225];
+final List<double> b2 = [18, -12, -103, -225];
 
-final List<List<int>> matrix3 = [
+final List<List<double>> matrix3 = [
   [1, 10, 0, 0],
   [2, -9, 9, 0],
   [0, 5, 7, -2],
   [0, 0, 6, 1]
 ];
 
-final List<int> b3 = [71, -142, -26, -55];
+final List<double> b3 = [71, -142, -26, -55];

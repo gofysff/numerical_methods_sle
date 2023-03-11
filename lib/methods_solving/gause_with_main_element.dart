@@ -6,43 +6,52 @@ mixin GauseWithMainElement on SystemLinerEquations {
   /// with main element
   /// with comments for every logical block
 
-  /// return list of solutions of system of liner equations( List<num> )
-  List<num> solution() {
+  /// return list of solutions of system of liner equations( List<double> )
+  List<double> solution() {
     int n = matrix.n; // number of equations
-    List<num> x = List.filled(n, 0); // list of solutions
-    List<List<num>> matrixA = matrix.data; // data of matrix
-    List<num> b = vector; // vector of system of liner equations
+    List<double> x = List.filled(n, 0); // list of solutions
+    List<List<double>> matrixA = matrix.data; // data of matrix
+    List<double> b = vector; // vector of system of liner equations
 
     for (int k = 0; k < n; k++) {
+      // print('new variable: $k');
+      // Matrix(matrixA).printMatrix();
       // find indexes of main element in data using getter [rowWithMaxElementByModule] of class [Matrix]
       int indexMax = matrix.findRowWithMaxElementInColumnK(k);
 
       // swap rows in data of matrix using method [swapRows] of class [Matrix]
-      matrix.swapRows(k, indexMax);
+      if (k < indexMax) {
+        matrix.swapRows(k, indexMax);
+        // print('swapped rows: $k and $indexMax');
+      }
 
       // swap elements in vector of system of liner equations
-      num temp = b[k];
+      double temp = b[k];
       b[k] = b[indexMax];
       b[indexMax] = temp;
 
       // find coefficients of equations and free members of equations
       // i = k + 1 because we don't wanna subststitute this row
+      // Matrix(matrixA).printMatrix();
+
       for (int i = k + 1; i < n; i++) {
         // find coefficient of equation
-        num coefficient = matrixA[i][k] /= matrixA[k][k];
+        double coefficient = matrixA[i][k] /= matrixA[k][k];
         // this coefficient will be used in next loop for acting with other elements of matrix
         for (int j = k + 1; j < n; j++) {
           matrixA[i][j] -= coefficient * matrixA[k][j];
         }
         /* filling lower triangular matrix with
                  * zeros*/
-        matrixA[i][k] = 0;
+        matrixA[i][k] = 0.0;
         b[i] -= coefficient * b[k]; // find free member of equation
+        // Matrix(matrixA).printMatrix();
       }
     }
 
     //? uncomment  line beneath to see matrix after Gause method
-    // Matrix(matrixA).printMatrix();
+    print('Matrix A after Gause method: ');
+    Matrix(matrixA).printMatrix();
 
     // find solutions of system of liner equations
 
@@ -52,7 +61,7 @@ mixin GauseWithMainElement on SystemLinerEquations {
       x[i] = b[i]; // start with the RHS of the equation (free member)
 
       /* Initialize j to i+1 since matrix is upper
-               triangular*/
+              triangular*/
       for (int j = i + 1; j < n; j++) {
         //   subtract all the lhs values
         //   except the coefficient of the variable
@@ -63,7 +72,8 @@ mixin GauseWithMainElement on SystemLinerEquations {
       // now finally divide the RHS by the coefficient
       x[i] /= matrixA[i][i];
     }
-
+    print('Matrix b:');
+    Matrix.fromList(b).printMatrix();
     return x;
   }
 }

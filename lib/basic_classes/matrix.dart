@@ -5,7 +5,7 @@ import 'package:number_methods/Exceptions/matrix_is_not_square.dart';
 import '../Exceptions/wrong_size_matrix.dart';
 
 class Matrix {
-  List<List<num>> data;
+  List<List<double>> data;
 
   /// height
   final int n;
@@ -17,12 +17,23 @@ class Matrix {
       : n = data.length,
         m = data[0].length;
 
+  Matrix.fromList(List<double> data)
+      : n = 1,
+        m = data.length,
+        data = [data];
+
   @override
   String toString() {
     List<String> result = [];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        result.add('${data[i][j]}\t');
+        if (data[i][j] < 0.0001) {
+          result.add('${data[i][j]}\t\t');
+        } else if (data[i][j] == 0) {
+          result.add('0\t\t\t\t');
+        } else {
+          result.add('${data[i][j].toStringAsFixed(4)}\t\t');
+        }
       }
       result.add('\n');
     }
@@ -58,16 +69,79 @@ class Matrix {
     return false;
   }
 
+  /// method that accept other Matrix and return the result of multiplication
+  /// of this matrix and other matrix
+  /// if the number of columns of the first matrix is not equal to the number of rows of the second matrix,
+  /// then an exception is thrown
+  /// if the number of columns of the first matrix is equal to the number of rows of the second matrix,
+  /// then the result is a matrix with the number of rows of the first matrix and the number of columns of the second matrix
+
+  Matrix operator *(Matrix other) {
+    if (m != other.n) {
+      throw WrongSizeOfMatrix(
+          message: 'm != other.n\n'
+              'm = $m, other.n = ${other.n}');
+    }
+    List<List<double>> newData = [];
+    for (int i = 0; i < n; i++) {
+      List<double> row = [];
+      for (int j = 0; j < other.m; j++) {
+        double sum = 0;
+        for (int k = 0; k < m; k++) {
+          sum += data[i][k] * other.data[k][j];
+        }
+        row.add(sum);
+      }
+      newData.add(row);
+    }
+    return Matrix(newData);
+  }
+
+  Matrix operator +(Matrix other) {
+    if (m != other.m || n != other.n) {
+      throw WrongSizeOfMatrix(
+        message: ' m != other.m || n != other.n\n'
+            'm = $m, other.m = ${other.m}, n = $n, other.n = ${other.n}',
+      );
+    }
+    List<List<double>> newData = [];
+    for (int i = 0; i < n; i++) {
+      List<double> row = [];
+      for (int j = 0; j < m; j++) {
+        row.add(data[i][j] + other.data[i][j]);
+      }
+      newData.add(row);
+    }
+    return Matrix(newData);
+  }
+
+  Matrix operator -(Matrix other) {
+    if (m != other.m || n != other.n) {
+      throw WrongSizeOfMatrix(
+          message: ' m != other.m || n != other.n\n'
+              'm = $m, other.m = ${other.m}, n = $n, other.n = ${other.n}');
+    }
+    List<List<double>> newData = [];
+    for (int i = 0; i < n; i++) {
+      List<double> row = [];
+      for (int j = 0; j < m; j++) {
+        row.add(data[i][j] - other.data[i][j]);
+      }
+      newData.add(row);
+    }
+    return Matrix(newData);
+  }
+
   bool get isMatrixSymmetrical => this == transported;
 
   Matrix cofactor(int iExclude, int jExclude, Matrix matrix) {
     // iExclude and jExclude are the indexes what we wanna exclude from matrix
-    List<List<num>> newData = [];
+    List<List<double>> newData = [];
     for (int i = 0; i < matrix.n; i++) {
       if (i == iExclude) {
         continue;
       }
-      List<num> row = [];
+      List<double> row = [];
       for (int j = 0; j < matrix.m; j++) {
         if (j == jExclude) {
           continue;
@@ -80,9 +154,9 @@ class Matrix {
   }
 
   Matrix get transported {
-    List<List<num>> newData = [];
+    List<List<double>> newData = [];
     for (int i = 0; i < m; i++) {
-      List<num> row = [];
+      List<double> row = [];
       for (int j = 0; j < n; j++) {
         row.add(data[j][i]);
       }
@@ -95,9 +169,9 @@ class Matrix {
   /// rows and columns are the indexes of the elements in the original matrix
   Matrix subMatrixFromRowsAndColumns(
       {required List<int> rows, required List<int> columns}) {
-    List<List<num>> newData = [];
+    List<List<double>> newData = [];
     for (int i = 0; i < rows.length; i++) {
-      List<num> row = [];
+      List<double> row = [];
       for (int j = 0; j < columns.length; j++) {
         row.add(data[rows[i]][columns[j]]);
       }
@@ -106,7 +180,7 @@ class Matrix {
     return Matrix(newData);
   }
 
-  num get determinant2x2 {
+  double get determinant2x2 {
     // default math formules
     if (m != 2 || n != 2) {
       throw WrongSizeOfMatrix();
@@ -114,7 +188,7 @@ class Matrix {
     return data[0][0] * data[1][1] - data[0][1] * data[1][0];
   }
 
-  num get determinant3x3 {
+  double get determinant3x3 {
     // default math formules
     if (m != 3 || n != 3) {
       throw WrongSizeOfMatrix();
@@ -127,7 +201,7 @@ class Matrix {
         data[0][0] * data[1][2] * data[2][1];
   }
 
-  num get determinant {
+  double get determinant {
     if (isSquare == false) {
       throw MatrixIsNotSquare();
     }
@@ -162,7 +236,7 @@ class Matrix {
   /// then the first row is returned
   int get rowWithMaxElementByModule {
     int maxRowIndex = 0;
-    num maxElement = data[0][0];
+    double maxElement = data[0][0];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
         if (data[i][j].abs() > maxElement.abs()) {
@@ -180,7 +254,7 @@ class Matrix {
 
   int findRowWithMaxElementInColumnK(int k) {
     int maxRowIndex = 0;
-    num maxElement = data[0][k];
+    double maxElement = data[0][k];
     for (int i = 0; i < n; i++) {
       if (data[i][k].abs() > maxElement.abs()) {
         maxElement = data[i][k];
@@ -191,7 +265,7 @@ class Matrix {
   }
 
   void swapRows(int firstRowIndex, int secondRowIndex) {
-    List<num> temp = data[firstRowIndex];
+    List<double> temp = data[firstRowIndex];
     data[firstRowIndex] = data[secondRowIndex];
     data[secondRowIndex] = temp;
   }
