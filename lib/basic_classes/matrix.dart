@@ -5,7 +5,7 @@ import 'package:number_methods/Exceptions/matrix_is_not_square.dart';
 import '../Exceptions/wrong_size_matrix.dart';
 
 class Matrix {
-  List<List<double>> data;
+  List<List<num>> data;
 
   /// height
   final int n;
@@ -16,6 +16,22 @@ class Matrix {
   Matrix(this.data)
       : n = data.length,
         m = data[0].length;
+
+  @override
+  String toString() {
+    List<String> result = [];
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        result.add('${data[i][j]}\t');
+      }
+      result.add('\n');
+    }
+    return result.join();
+  }
+
+  void printMatrix() {
+    print(toString());
+  }
 
   bool get isSquare => n == m;
 
@@ -46,12 +62,12 @@ class Matrix {
 
   Matrix cofactor(int iExclude, int jExclude, Matrix matrix) {
     // iExclude and jExclude are the indexes what we wanna exclude from matrix
-    List<List<double>> newData = [];
+    List<List<num>> newData = [];
     for (int i = 0; i < matrix.n; i++) {
       if (i == iExclude) {
         continue;
       }
-      List<double> row = [];
+      List<num> row = [];
       for (int j = 0; j < matrix.m; j++) {
         if (j == jExclude) {
           continue;
@@ -64,9 +80,9 @@ class Matrix {
   }
 
   Matrix get transported {
-    List<List<double>> newData = [];
+    List<List<num>> newData = [];
     for (int i = 0; i < m; i++) {
-      List<double> row = [];
+      List<num> row = [];
       for (int j = 0; j < n; j++) {
         row.add(data[j][i]);
       }
@@ -79,9 +95,9 @@ class Matrix {
   /// rows and columns are the indexes of the elements in the original matrix
   Matrix subMatrixFromRowsAndColumns(
       {required List<int> rows, required List<int> columns}) {
-    List<List<double>> newData = [];
+    List<List<num>> newData = [];
     for (int i = 0; i < rows.length; i++) {
-      List<double> row = [];
+      List<num> row = [];
       for (int j = 0; j < columns.length; j++) {
         row.add(data[rows[i]][columns[j]]);
       }
@@ -90,7 +106,7 @@ class Matrix {
     return Matrix(newData);
   }
 
-  double get determinant2x2 {
+  num get determinant2x2 {
     // default math formules
     if (m != 2 || n != 2) {
       throw WrongSizeOfMatrix();
@@ -98,7 +114,7 @@ class Matrix {
     return data[0][0] * data[1][1] - data[0][1] * data[1][0];
   }
 
-  double get determinant3x3 {
+  num get determinant3x3 {
     // default math formules
     if (m != 3 || n != 3) {
       throw WrongSizeOfMatrix();
@@ -111,7 +127,7 @@ class Matrix {
         data[0][0] * data[1][2] * data[2][1];
   }
 
-  double get determinant {
+  num get determinant {
     if (isSquare == false) {
       throw MatrixIsNotSquare();
     }
@@ -137,5 +153,46 @@ class Matrix {
     for (int i = 0; i < m; i++) {
       data[executableRowIndex][i] += k * data[performedRowIndex][i];
     }
+  }
+
+  /// get the row with the maximum element by module
+  /// return only one integer - the index of the row
+  ///
+  /// if there are several rows with the same maximum element by module,
+  /// then the first row is returned
+  int get rowWithMaxElementByModule {
+    int maxRowIndex = 0;
+    num maxElement = data[0][0];
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (data[i][j].abs() > maxElement.abs()) {
+          maxElement = data[i][j];
+          maxRowIndex = i;
+        }
+      }
+    }
+    return maxRowIndex;
+  }
+
+  /// return index of row where is located maximum element by module in column k
+  /// if there are several rows with the same maximum element by **module**,
+  /// then the first row is returned
+
+  int findRowWithMaxElementInColumnK(int k) {
+    int maxRowIndex = 0;
+    num maxElement = data[0][k];
+    for (int i = 0; i < n; i++) {
+      if (data[i][k].abs() > maxElement.abs()) {
+        maxElement = data[i][k];
+        maxRowIndex = i;
+      }
+    }
+    return maxRowIndex;
+  }
+
+  void swapRows(int firstRowIndex, int secondRowIndex) {
+    List<num> temp = data[firstRowIndex];
+    data[firstRowIndex] = data[secondRowIndex];
+    data[secondRowIndex] = temp;
   }
 }

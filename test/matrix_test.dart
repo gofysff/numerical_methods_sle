@@ -113,5 +113,64 @@ void main() {
         expect(matrix.isNonsingular, true);
       });
     });
+
+    group('find  position of maxinal element ', () {
+      // find (row) position of maxinal element
+      test('find row position of maxinal element', () {
+        final matrix = Matrix([
+          [1, 2, 32],
+          [21, 5, 6],
+          [3, 6, 9],
+        ]);
+        expect(matrix.rowWithMaxElementByModule, 0);
+      });
+
+      test('find row position of maxinal element', () {
+        final matrix = Matrix([
+          [1, 2, -32],
+          [21, -5, 6],
+          [3, 6, 9],
+        ]);
+        expect(matrix.rowWithMaxElementByModule, 0);
+      });
+
+      test('find row position of maxinal element', () {
+        final matrix = Matrix([
+          [21, -5, 6],
+          [3, 6, 9],
+          [1, 2, -32],
+        ]);
+        expect(matrix.rowWithMaxElementByModule, 2);
+      });
+    });
+
+    group('swap rows ', () {
+      // test for [swapRows] method of class [Matrix]
+      test('swap rows', () {
+        final matrix = Matrix([
+          [1, 2, 32],
+          [21, 5, 6],
+          [3, 6, 9],
+        ]);
+        matrix.swapRows(0, 2);
+        expect(matrix.data, [
+          [3, 6, 9],
+          [21, 5, 6],
+          [1, 2, 32],
+        ]);
+      });
+    });
+
+    group('find row with max element in column k', () {
+      // test for [findRowWithMaxElementInColumnK] method of class [Matrix]
+      test('find row with max element in column k', () {
+        final matrix = Matrix([
+          [1, 2, 32],
+          [21, 5, 6],
+          [3, 6, 9],
+        ]);
+        expect(matrix.findRowWithMaxElementInColumnK(0), 1);
+      });
+    });
   });
 }
