@@ -1,3 +1,4 @@
+import '../basic_classes/matrix.dart';
 import '../basic_classes/system_of_liner_equations.dart';
 
 mixin GauseWithMainElement on SystemLinerEquations {
@@ -9,7 +10,7 @@ mixin GauseWithMainElement on SystemLinerEquations {
   List<num> solution() {
     int n = matrix.n; // number of equations
     List<num> x = List.filled(n, 0); // list of solutions
-    List<List<num>> a = matrix.data; // data of matrix
+    List<List<num>> matrixA = matrix.data; // data of matrix
     List<num> b = vector; // vector of system of liner equations
 
     for (int k = 0; k < n; k++) {
@@ -24,24 +25,43 @@ mixin GauseWithMainElement on SystemLinerEquations {
       b[k] = b[indexMax];
       b[indexMax] = temp;
 
-      // find coefficients of equations
-
-      // write commas in this block
+      // find coefficients of equations and free members of equations
+      // i = k + 1 because we don't wanna subststitute this row
       for (int i = k + 1; i < n; i++) {
-        a[i][k] /= a[k][k]; // find coefficient of equation
+        // find coefficient of equation
+        num coefficient = matrixA[i][k] /= matrixA[k][k];
+        // this coefficient will be used in next loop for acting with other elements of matrix
         for (int j = k + 1; j < n; j++) {
-          a[i][j] -= a[i][k] * a[k][j];
+          matrixA[i][j] -= coefficient * matrixA[k][j];
         }
-        b[i] -= a[i][k] * b[k]; // find free member of equation
+        /* filling lower triangular matrix with
+                 * zeros*/
+        matrixA[i][k] = 0;
+        b[i] -= coefficient * b[k]; // find free member of equation
       }
     }
+
+    //? uncomment  line beneath to see matrix after Gause method
+    // Matrix(matrixA).printMatrix();
+
     // find solutions of system of liner equations
+
+    // we have triangular matrix and we can find solutions
+    // zeroes are below diagonal
     for (int i = n - 1; i >= 0; i--) {
-      x[i] = b[i];
+      x[i] = b[i]; // start with the RHS of the equation (free member)
+
+      /* Initialize j to i+1 since matrix is upper
+               triangular*/
       for (int j = i + 1; j < n; j++) {
-        x[i] -= a[i][j] * x[j];
+        //   subtract all the lhs values
+        //   except the coefficient of the variable
+        //   whose value is being calculated
+        x[i] -= matrixA[i][j] * x[j];
       }
-      x[i] /= a[i][i];
+
+      // now finally divide the RHS by the coefficient
+      x[i] /= matrixA[i][i];
     }
 
     return x;
