@@ -26,21 +26,22 @@ mixin GauseWithMainElement on SystemLinerEquations {
 
       // find coefficients of equations
 
+      // write commas in this block
       for (int i = k + 1; i < n; i++) {
-        a[i][k] = a[i][k] / a[k][k];
+        a[i][k] /= a[k][k]; // find coefficient of equation
         for (int j = k + 1; j < n; j++) {
-          a[i][j] = a[i][j] - a[i][k] * a[k][j];
+          a[i][j] -= a[i][k] * a[k][j];
         }
-        b[i] = b[i] - a[i][k] * b[k];
+        b[i] -= a[i][k] * b[k]; // find free member of equation
       }
     }
     // find solutions of system of liner equations
     for (int i = n - 1; i >= 0; i--) {
       x[i] = b[i];
       for (int j = i + 1; j < n; j++) {
-        x[i] = x[i] - a[i][j] * x[j];
+        x[i] -= a[i][j] * x[j];
       }
-      x[i] = x[i] / a[i][i];
+      x[i] /= a[i][i];
     }
 
     return x;
