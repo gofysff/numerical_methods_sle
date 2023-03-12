@@ -1,17 +1,23 @@
+import '../basic_classes/input_system.dart';
 import '../basic_classes/matrix.dart';
 import '../basic_classes/system_of_liner_equations.dart';
 
-mixin GauseWithMainElement on SystemLinerEquations {
+class GauseWithMainElement extends SystemLinerEquations {
+  GauseWithMainElement(super.matrix, super.vectorB);
+  GauseWithMainElement.fromSystemInput(SystemInput systemInput)
+      : super(systemInput.matrix, systemInput.vectorB);
+
   /// solve method for system of liner equations with Gause method
   /// with main element
   /// with comments for every logical block
 
   /// return list of solutions of system of liner equations( List<double> )
+  @override
   List<double> solution() {
     int n = matrix.n; // number of equations
     List<double> x = List.filled(n, 0); // list of solutions
     List<List<double>> matrixA = matrix.data; // data of matrix
-    List<double> b = vector; // vector of system of liner equations
+    List<double> b = vectorB; // vector of system of liner equations
 
     for (int k = 0; k < n; k++) {
       // print('new variable: $k');
@@ -57,21 +63,39 @@ mixin GauseWithMainElement on SystemLinerEquations {
 
     // we have triangular matrix and we can find solutions
     // zeroes are below diagonal
-    for (int i = n - 1; i >= 0; i--) {
-      x[i] = b[i]; // start with the RHS of the equation (free member)
+    //
 
-      /* Initialize j to i+1 since matrix is upper
-              triangular*/
+    // x[n - 1] = b[n - 1] / matrixA[n - 1][n - 1];
+    // x[n - 2] = (b[n - 2] - matrixA[n - 2][n - 1] * x[n - 1])
+    //    / matrixA[n - 2][n - 2];
+    // x[n - 3] = (b[n - 3] - matrixA[n - 3][n - 1] * x[n - 1] -
+    //         matrixA[n - 3][n - 2] * x[n - 2]) /
+    //     matrixA[n - 3][n - 3];
+
+    x[n - 1] = b[n - 1] / matrixA[n - 1][n - 1];
+    for (int i = n - 2; i >= 0; i--) {
+      x[i] = b[i];
       for (int j = i + 1; j < n; j++) {
-        //   subtract all the lhs values
-        //   except the coefficient of the variable
-        //   whose value is being calculated
         x[i] -= matrixA[i][j] * x[j];
       }
-
-      // now finally divide the RHS by the coefficient
       x[i] /= matrixA[i][i];
     }
+
+    // for (int i = n - 1; i >= 0; i--) {
+    //   x[i] = b[i]; // start with the RHS of the equation (free member)
+
+    //   /* Initialize j to i+1 since matrix is upper
+    //           triangular*/
+    //   for (int j = i + 1; j < n; j++) {
+    //     //   subtract all the lhs values
+    //     //   except the coefficient of the variable
+    //     //   whose value is being calculated
+    //     x[i] -= matrixA[i][j] * x[j];
+    //   }
+
+    //   // now finally divide the RHS by the coefficient
+    //   x[i] /= matrixA[i][i];
+    // }
     print('Matrix b:');
     Matrix.fromList(b).printMatrix();
     return x;

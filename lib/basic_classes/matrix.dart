@@ -27,14 +27,17 @@ class Matrix {
     List<String> result = [];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (data[i][j] < 0.0001) {
-          result.add('${data[i][j]}\t\t');
-        } else if (data[i][j] == 0) {
-          result.add('0\t\t\t\t');
-        } else {
-          result.add('${data[i][j].toStringAsFixed(4)}\t\t');
-        }
+        //   if (data[i][j].abs() < 0.0001) {
+        //     result.add('${data[i][j]}\t');
+        //   } else if (data[i][j].toString() == '0.0') {
+        //     result.add('0\t\t\t\t');
+        //   } else {
+        //     result.add('${data[i][j].toStringAsFixed(4)}\t');
+        //   }
+        // }
+        result.add('${data[i][j].toStringAsFixed(5)}\t');
       }
+
       result.add('\n');
     }
     return result.join();
@@ -132,7 +135,7 @@ class Matrix {
     return Matrix(newData);
   }
 
-  bool get isMatrixSymmetrical => this == transported;
+  bool get isMatrixSymmetrical => this == transposed;
 
   Matrix cofactor(int iExclude, int jExclude, Matrix matrix) {
     // iExclude and jExclude are the indexes what we wanna exclude from matrix
@@ -153,7 +156,7 @@ class Matrix {
     return Matrix(newData);
   }
 
-  Matrix get transported {
+  Matrix get transposed {
     List<List<double>> newData = [];
     for (int i = 0; i < m; i++) {
       List<double> row = [];

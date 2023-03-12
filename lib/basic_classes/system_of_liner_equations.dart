@@ -1,13 +1,18 @@
 import 'package:number_methods/Exceptions/matrix_is_not_square.dart';
 
 import '../Exceptions/matrix_and_vector_are_not_compatible.dart';
+import 'input_system.dart';
 import 'matrix.dart';
 
-class SystemLinerEquations {
+abstract class Solution {
+  List<double> solution();
+}
+
+class SystemLinerEquations implements Solution {
   Matrix matrix;
-  List<double> vector;
+  List<double> vectorB;
   final int n;
-  SystemLinerEquations(this.matrix, this.vector) : n = matrix.n {
+  SystemLinerEquations(this.matrix, this.vectorB) : n = matrix.n {
     if (!areCompatible) {
       throw MatrixAndVectorAreNotCompatible();
     }
@@ -16,17 +21,29 @@ class SystemLinerEquations {
     }
   }
 
-  bool get areCompatible => matrix.n == vector.length;
+  SystemLinerEquations.fromInputData(SystemInput input)
+      : matrix = input.matrix,
+        vectorB = input.vectorB,
+        n = input.matrix.n {
+    if (!areCompatible) {
+      throw MatrixAndVectorAreNotCompatible();
+    }
+    if (matrix.isSquare == false) {
+      throw MatrixIsNotSquare();
+    }
+  }
 
-  Matrix get transportedMatrix => matrix.transported;
+  bool get areCompatible => matrix.n == vectorB.length;
+
+  Matrix get transportedMatrix => matrix.transposed;
 
   // solution discrepancy
   double dicrepancy(List<double> solution) {
-    Matrix r = matrix * Matrix.fromList(solution).transported -
-        Matrix.fromList(vector).transported;
+    Matrix r = matrix * Matrix.fromList(solution).transposed -
+        Matrix.fromList(vectorB).transposed;
 
     // r.printMatrix();
-    r = r.transported;
+    r = r.transposed;
     // r.printMatrix();
     // we got vector of discrepancy
     // we need to find sqrt of sum of squares of discrepancy
@@ -35,5 +52,11 @@ class SystemLinerEquations {
       result += r.data[0][i] * r.data[0][i];
     }
     return result * result;
+  }
+
+  @override
+  List<double> solution() {
+    List<double> x = [];
+    return x;
   }
 }
