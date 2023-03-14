@@ -97,13 +97,14 @@ class LUDecomposition extends SystemLinerEquations {
     // x_(n - 2) = y_(n - 2) - u_(n - 2)(n - 1) * x_(n - 1) - u_(n - 2)(n) * x_n
     // x_i = y_i - sum(u_ij * x_j) for j = i + 1, i + 2, ..., n - 1
     // 0 <= i <= n - 1
-    x[n - 1] = y[n - 1];
-    for (int i = n - 2; i >= 0; i--) {
+    // x[n - 1] = y[n - 1];
+    for (int i = n - 1; i >= 0; i--) {
       double sum = 0;
       for (int j = i + 1; j < n; j++) {
         sum += upper.data[i][j] * x[j];
       }
-      x[i] = y[i] - sum;
+      x[i] = (y[i] - sum) / upper.data[i][i];
+      //Todo: check
     }
 
     return x;
@@ -112,17 +113,19 @@ class LUDecomposition extends SystemLinerEquations {
 
 void main(List<String> args) {
   List<List<double>> test = [
-    [5, 8, 1],
-    [3, -2, 6],
-    [2, 1, -1],
+    [25, 25, -10, 25],
+    [25, 41, -30, 33],
+    [-10, -30, 45, -16],
+    [25, 33, -16, 34]
   ];
 
   Matrix(test).printMatrix();
-  LUDecomposition example = LUDecomposition(Matrix(test), [2, -7, -5]);
-  var triangles = example.triangulesHolecky;
-  var low = triangles[0];
-  var upper = triangles[1];
-  low.printMatrix();
-  upper.printMatrix();
-  (low * upper).printMatrix(); // print(example.solution());
+  LUDecomposition example = LUDecomposition(Matrix(test), [160, -12, 331, 155]);
+  // var triangles = example.triangulesHolecky;
+  // var low = triangles[0];
+  // var upper = triangles[1];
+  // low.printMatrix();
+  // upper.printMatrix();
+  // (low * upper).printMatrix(); // print(example.solution());
+  print(example.solution());
 }

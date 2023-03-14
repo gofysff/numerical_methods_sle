@@ -56,7 +56,6 @@ class LLTDecomposition extends SystemLinerEquations {
     // same logic as in [LUDecomposition] class
     // Обратный ход (Поиск решений) (Нижнетреугольная)
 
-    // y[0] = vectorB[0] / lower.data[0][0]
     for (int i = 0; i < n; i++) {
       double sum = 0;
       for (int j = 0; j < i; j++) {
@@ -66,7 +65,7 @@ class LLTDecomposition extends SystemLinerEquations {
     }
 
     // Обратный ход (Поиск решений)
-    // x[n - 1] = y[n - 1];
+
     for (int i = n - 1; i >= 0; i--) {
       double sum = 0;
       for (int j = i + 1; j < n; j++) {
@@ -82,9 +81,6 @@ class LLTDecomposition extends SystemLinerEquations {
 void main(List<String> args) {
   // create input data
   List<List<double>> matr = [
-    // [4, 12, -16],
-    // [12, 37, -43],
-    // [-16, -43, 98]
     [25, 25, -10, 25],
     [25, 41, -30, 33],
     [-10, -30, 45, -16],
