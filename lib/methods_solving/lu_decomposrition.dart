@@ -63,6 +63,7 @@ class LUDecomposition extends SystemLinerEquations {
 
   /// solving method by LU decomposition what count by scheme of Holecky
   /// return solution of system
+  @override
   List<double> solution() {
     List<Matrix> triangules = triangulesHolecky;
     Matrix lower = triangules[0];
@@ -119,7 +120,9 @@ void main(List<String> args) {
   Matrix(test).printMatrix();
   LUDecomposition example = LUDecomposition(Matrix(test), [2, -7, -5]);
   var triangles = example.triangulesHolecky;
-  triangles[0].printMatrix();
-  triangles[1].printMatrix();
-  print(example.solution());
+  var low = triangles[0];
+  var upper = triangles[1];
+  low.printMatrix();
+  upper.printMatrix();
+  (low * upper).printMatrix(); // print(example.solution());
 }

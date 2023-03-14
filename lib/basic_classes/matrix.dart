@@ -35,7 +35,7 @@ class Matrix {
         //     result.add('${data[i][j].toStringAsFixed(4)}\t');
         //   }
         // }
-        result.add('${data[i][j].toStringAsFixed(5)}\t');
+        result.add('${data[i][j].toStringAsFixed(5)}\t\t');
       }
 
       result.add('\n');
@@ -85,17 +85,18 @@ class Matrix {
           message: 'm != other.n\n'
               'm = $m, other.n = ${other.n}');
     }
-    List<List<double>> newData = [];
+
+    List<List<double>> newData =
+        List.generate(n, (i) => List.generate(m, (j) => 0.0), growable: false);
+
     for (int i = 0; i < n; i++) {
-      List<double> row = [];
+      // List<double> row = [];
       for (int j = 0; j < other.m; j++) {
-        double sum = 0;
-        for (int k = 0; k < m; k++) {
-          sum += data[i][k] * other.data[k][j];
+        for (int k = 0; k < other.n; k++) {
+          newData[i][j] += data[i][k] * other.data[k][j];
         }
-        row.add(sum);
       }
-      newData.add(row);
+      // newData.add(row);
     }
     return Matrix(newData);
   }

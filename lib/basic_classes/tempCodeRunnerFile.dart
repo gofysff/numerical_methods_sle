@@ -1,1 +1,0 @@
-    List<String> result = [];
