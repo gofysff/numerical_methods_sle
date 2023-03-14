@@ -8,7 +8,7 @@ class SweepMethod extends SystemLinerEquations {
   @override
   List<double> solution() {
     // get matrix data
-    List<List<double>> matr = matrix.data;
+    List<List<double>> matr = matrix.copy().data;
     // create list of solutions
     List<double> x = List.filled(n, 0);
     // find solutions

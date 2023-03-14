@@ -11,7 +11,7 @@ class LUDecomposition extends SystemLinerEquations {
   /// Return low-triangular of the LU decomposition method.
   /// by scheme of Holecky
   List<Matrix> get triangulesHolecky {
-    List<List<double>> matr = matrix.data;
+    List<List<double>> matr = matrix.copy().data;
     List<List<double>> lower =
         List.generate(n, (i) => List.generate(n, (j) => 0.0), growable: false);
     List<List<double>> upper =
