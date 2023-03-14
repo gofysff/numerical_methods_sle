@@ -1,4 +1,4 @@
-import 'package:number_methods/basic_classes/input_system.dart';
+import 'package:number_methods/basic_classes/system_input.dart';
 import 'package:number_methods/basic_classes/system_of_liner_equations.dart';
 import 'dart:math';
 

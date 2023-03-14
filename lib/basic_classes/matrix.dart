@@ -150,6 +150,18 @@ class Matrix {
     return Matrix(newData);
   }
 
+  Matrix operator -() {
+    List<List<double>> newData = [];
+    for (int i = 0; i < n; i++) {
+      List<double> row = [];
+      for (int j = 0; j < m; j++) {
+        row.add(-data[i][j]);
+      }
+      newData.add(row);
+    }
+    return Matrix(newData);
+  }
+
   bool get isMatrixSymmetrical => this == transposed;
 
   Matrix cofactor(int iExclude, int jExclude, Matrix matrix) {
@@ -325,6 +337,28 @@ class Matrix {
       data[i][firstColumnIndex] = data[i][secondColumnIndex];
       data[i][secondColumnIndex] = temp;
     }
+  }
+
+  double get normEuqlid {
+    double norm = 0;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        norm += data[i][j] * data[i][j];
+      }
+    }
+    return sqrt(norm);
+  }
+
+  double get normCommon {
+    List<double> normListByColumn = [];
+    for (int i = 0; i < m; i++) {
+      double norm = 0;
+      for (int j = 0; j < n; j++) {
+        norm += data[j][i].abs();
+      }
+      normListByColumn.add(norm);
+    }
+    return normListByColumn.reduce(max);
   }
 }
 

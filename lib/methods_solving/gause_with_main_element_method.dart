@@ -1,4 +1,4 @@
-import '../basic_classes/input_system.dart';
+import '../basic_classes/system_input.dart';
 import '../basic_classes/matrix.dart';
 import '../basic_classes/system_of_liner_equations.dart';
 

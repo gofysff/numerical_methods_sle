@@ -1,5 +1,5 @@
 import 'package:number_methods/input_data/exercises_transformed_data.dart';
-import 'package:number_methods/methods_solving/lu_decomposrition.dart';
+import 'package:number_methods/methods_solving/lu_decomposrition_method.dart';
 
 void secondNumer() {
   LUDecomposition system = LUDecomposition.fromSystemInput(system2);

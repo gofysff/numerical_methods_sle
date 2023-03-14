@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:number_methods/basic_classes/matrix.dart';
 
-import 'package:number_methods/methods_solving/gause_with_main_element.dart';
+import 'package:number_methods/methods_solving/gause_with_main_element_method.dart';
 
 final List<List<double>> testMatrix = [
   [2, 4, 1],

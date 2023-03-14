@@ -1,4 +1,4 @@
-import 'package:number_methods/basic_classes/input_system.dart';
+import 'package:number_methods/basic_classes/system_input.dart';
 
 import '../basic_classes/matrix.dart';
 import './exercises_poor_data.dart' as poor_data;
