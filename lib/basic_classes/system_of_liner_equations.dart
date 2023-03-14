@@ -53,10 +53,4 @@ abstract class SystemLinerEquations implements Solution {
     }
     return sqrt(result);
   }
-
-  // @override
-  // List<double> solution() {
-  //   List<double> x = [];
-  //   return x;
-  // }
 }

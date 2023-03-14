@@ -258,10 +258,10 @@ class Matrix {
   /// if there are several rows with the same maximum element by **module**,
   /// then the first row is returned
 
-  int findRowWithMaxElementInColumnK(int k) {
+  int findRowWithMaxElementInColumnK(int k, {int beginIndRow = 0}) {
     int maxRowIndex = 0;
     double maxElement = data[0][k];
-    for (int i = 0; i < n; i++) {
+    for (int i = beginIndRow; i < n; i++) {
       if (data[i][k].abs() > maxElement.abs()) {
         maxElement = data[i][k];
         maxRowIndex = i;
@@ -270,9 +270,58 @@ class Matrix {
     return maxRowIndex;
   }
 
+  int findColumnWithMaxElementInRowK(int k, {int beginIndColumn = 0}) {
+    int maxColumnIndex = 0;
+    double maxElement = data[k][0];
+    for (int i = beginIndColumn; i < m; i++) {
+      if (data[k][i].abs() > maxElement.abs()) {
+        maxElement = data[k][i];
+        maxColumnIndex = i;
+      }
+    }
+    return maxColumnIndex;
+  }
+
+  /// return list of element and two indexes (row and column) of the maximum element by module from beginIndRow to endIndRow in matrix and beginIndColumn to endIndColumn in matrix
+  ///
+  List<num> findMaxElementInSubMatrix(
+      {int beginIndRow = 0, int beginIndColumn = 0}) {
+    double maxElement = data[beginIndRow][beginIndColumn];
+    int maxRowIndex = beginIndRow;
+    int maxColumnIndex = beginIndColumn;
+    for (int i = beginIndRow; i < n; i++) {
+      for (int j = beginIndColumn; j < m; j++) {
+        if (data[i][j].abs() > maxElement.abs()) {
+          maxElement = data[i][j];
+          maxRowIndex = i;
+          maxColumnIndex = j;
+        }
+      }
+    }
+    return [maxElement, maxRowIndex, maxColumnIndex];
+  }
+
   void swapRows(int firstRowIndex, int secondRowIndex) {
     List<double> temp = data[firstRowIndex];
     data[firstRowIndex] = data[secondRowIndex];
     data[secondRowIndex] = temp;
   }
+
+  void swapColumns(int firstColumnIndex, int secondColumnIndex) {
+    for (int i = 0; i < n; i++) {
+      double temp = data[i][firstColumnIndex];
+      data[i][firstColumnIndex] = data[i][secondColumnIndex];
+      data[i][secondColumnIndex] = temp;
+    }
+  }
+}
+
+void main(List<String> args) {
+  Matrix matr = Matrix([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ]);
+  matr.swapColumns(0, 2);
+  matr.printMatrix();
 }
