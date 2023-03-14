@@ -153,8 +153,10 @@ void main(List<String> args) {
   lower.printMatrix();
   print('LT matrix');
   lower.transposed.printMatrix();
-  var res = lower * lower.transposed;
+  // var res = lower * lower.transposed;
   print('REs');
   // lower.transposed.printMatrix();
-  res.printMatrix();
+  // res.printMatrix();
+
+  print(system.solution());
 }
