@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:number_methods/Exceptions/matrix_is_not_square.dart';
 
 import '../Exceptions/matrix_and_vector_are_not_compatible.dart';
@@ -8,7 +10,7 @@ abstract class Solution {
   List<double> solution();
 }
 
-class SystemLinerEquations implements Solution {
+abstract class SystemLinerEquations implements Solution {
   Matrix matrix;
   List<double> vectorB;
   final int n;
@@ -42,21 +44,19 @@ class SystemLinerEquations implements Solution {
     Matrix r = matrix * Matrix.fromList(solution).transposed -
         Matrix.fromList(vectorB).transposed;
 
-    // r.printMatrix();
     r = r.transposed;
-    // r.printMatrix();
     // we got vector of discrepancy
     // we need to find sqrt of sum of squares of discrepancy
     double result = 0;
     for (int i = 0; i < n; i++) {
       result += r.data[0][i] * r.data[0][i];
     }
-    return result * result;
+    return sqrt(result);
   }
 
-  @override
-  List<double> solution() {
-    List<double> x = [];
-    return x;
-  }
+  // @override
+  // List<double> solution() {
+  //   List<double> x = [];
+  //   return x;
+  // }
 }

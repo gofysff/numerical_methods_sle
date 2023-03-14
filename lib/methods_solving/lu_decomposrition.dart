@@ -104,7 +104,6 @@ class LUDecomposition extends SystemLinerEquations {
         sum += upper.data[i][j] * x[j];
       }
       x[i] = (y[i] - sum) / upper.data[i][i];
-      //Todo: check
     }
 
     return x;

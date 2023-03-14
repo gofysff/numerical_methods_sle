@@ -38,13 +38,19 @@ class GauseWithMainElement extends SystemLinerEquations {
 
       // find coefficients of equations and free members of equations
       // i = k + 1 because we don't wanna subststitute this row
-      // Matrix(matrixA).printMatrix();
 
       for (int i = k + 1; i < n; i++) {
+        Matrix(matrixA).printMatrix();
         // find coefficient of equation
         double coefficient = matrixA[i][k] /= matrixA[k][k];
+        print(
+            'coef $coefficient, i - $i,k-$k a[i][k]- ${matrixA[i][k]}  a[k][k] - ${matrixA[k][k]} ');
         // this coefficient will be used in next loop for acting with other elements of matrix
-        for (int j = k + 1; j < n; j++) {
+        for (int j = k; j < n; j++) {
+          // k+1
+          // matrixA[i][j] -= coefficient * matrixA[k][j];
+          print(
+              'matrixA[i][j] - ${matrixA[i][j]}   a[k][j] - ${matrixA[k][k]}');
           matrixA[i][j] -= coefficient * matrixA[k][j];
         }
         /* filling lower triangular matrix with
@@ -63,7 +69,6 @@ class GauseWithMainElement extends SystemLinerEquations {
 
     // we have triangular matrix and we can find solutions
     // zeroes are below diagonal
-    //
 
     // x[n - 1] = b[n - 1] / matrixA[n - 1][n - 1];
     // x[n - 2] = (b[n - 2] - matrixA[n - 2][n - 1] * x[n - 1])
@@ -72,32 +77,29 @@ class GauseWithMainElement extends SystemLinerEquations {
     //         matrixA[n - 3][n - 2] * x[n - 2]) /
     //     matrixA[n - 3][n - 3];
 
-    x[n - 1] = b[n - 1] / matrixA[n - 1][n - 1];
-    for (int i = n - 2; i >= 0; i--) {
+    for (int i = n - 1; i >= 0; i--) {
       x[i] = b[i];
       for (int j = i + 1; j < n; j++) {
+        //   /* Initialize j to i+1 since matrix is upper
         x[i] -= matrixA[i][j] * x[j];
       }
       x[i] /= matrixA[i][i];
     }
-
-    // for (int i = n - 1; i >= 0; i--) {
-    //   x[i] = b[i]; // start with the RHS of the equation (free member)
-
-    //   /* Initialize j to i+1 since matrix is upper
-    //           triangular*/
-    //   for (int j = i + 1; j < n; j++) {
-    //     //   subtract all the lhs values
-    //     //   except the coefficient of the variable
-    //     //   whose value is being calculated
-    //     x[i] -= matrixA[i][j] * x[j];
-    //   }
-
-    //   // now finally divide the RHS by the coefficient
-    //   x[i] /= matrixA[i][i];
-    // }
     print('Matrix b:');
     Matrix.fromList(b).printMatrix();
     return x;
   }
+}
+
+void main(List<String> args) {
+  List<List<double>> matrix = [
+    [1.001, 2.001, 3.001],
+    [4.001, 5.001, 6.001],
+    [7.001, 8.001, 9.001],
+  ];
+  List<double> vectorB = [2.001, 5.001, 8.001];
+  SystemInput system = SystemInput(Matrix(matrix), vectorB);
+  GauseWithMainElement gauseSys = GauseWithMainElement.fromSystemInput(system);
+  var res = gauseSys.solution();
+  print(res);
 }

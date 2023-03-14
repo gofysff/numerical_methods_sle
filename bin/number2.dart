@@ -1,5 +1,3 @@
-import 'package:number_methods/basic_classes/system_of_liner_equations.dart';
-
 import 'package:number_methods/input_data/exercises_transformed_data.dart';
 import 'package:number_methods/methods_solving/lu_decomposrition.dart';
 

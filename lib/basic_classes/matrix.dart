@@ -86,18 +86,20 @@ class Matrix {
               'm = $m, other.n = ${other.n}');
     }
 
-    List<List<double>> newData =
-        List.generate(n, (i) => List.generate(m, (j) => 0.0), growable: false);
+    List<List<double>> newData = List.generate(
+        n, (i) => List.generate(other.m, (j) => 0.0),
+        growable: false);
 
     for (int i = 0; i < n; i++) {
       // List<double> row = [];
       for (int j = 0; j < other.m; j++) {
-        for (int k = 0; k < other.n; k++) {
+        for (int k = 0; k < m; k++) {
           newData[i][j] += data[i][k] * other.data[k][j];
         }
       }
       // newData.add(row);
     }
+    // print(newData);
     return Matrix(newData);
   }
 
