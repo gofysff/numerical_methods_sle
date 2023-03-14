@@ -42,7 +42,7 @@ class GauseWithMainElement extends SystemLinerEquations {
       for (int i = k + 1; i < n; i++) {
         Matrix(matrixA).printMatrix();
         // find coefficient of equation
-        double coefficient = matrixA[i][k] /= matrixA[k][k];
+        double coefficient = matrixA[i][k] / matrixA[k][k];
         print(
             'coef $coefficient, i - $i,k-$k a[i][k]- ${matrixA[i][k]}  a[k][k] - ${matrixA[k][k]} ');
         // this coefficient will be used in next loop for acting with other elements of matrix
