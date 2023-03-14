@@ -22,6 +22,18 @@ class Matrix {
         m = data.length,
         data = [data];
 
+  /// return copy of matrix
+  Matrix copy() {
+    List<List<double>> result = [];
+    for (int i = 0; i < n; i++) {
+      result.add([]);
+      for (int j = 0; j < m; j++) {
+        result[i].add(data[i][j]);
+      }
+    }
+    return Matrix(result);
+  }
+
   @override
   String toString() {
     List<String> result = [];

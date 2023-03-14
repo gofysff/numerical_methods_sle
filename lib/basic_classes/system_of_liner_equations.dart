@@ -44,7 +44,17 @@ abstract class SystemLinerEquations implements Solution {
     Matrix r = matrix * Matrix.fromList(solution).transposed -
         Matrix.fromList(vectorB).transposed;
 
+    // print('matrix');
+    // matrix.printMatrix();
+    // print('solution');
+    // Matrix.fromList(solution).transposed.printMatrix();
+    // (matrix * Matrix.fromList(solution).transposed).printMatrix();
+    // print('b');
+    // Matrix.fromList(vectorB).printMatrix();
+    // print('r');
+    // r.printMatrix();
     r = r.transposed;
+
     // we got vector of discrepancy
     // we need to find sqrt of sum of squares of discrepancy
     double result = 0;

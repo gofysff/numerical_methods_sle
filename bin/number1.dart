@@ -20,6 +20,7 @@ void firstNumber() {
 
   GauseWithMainElement systemThird =
       GauseWithMainElement.fromSystemInput(system3);
+  solution = systemThird.solution();
   print('Solution of the third system: $solution');
   dicrepancy = systemThird.dicrepancy(solution);
   print('Dicrepancy of the third system: $dicrepancy');

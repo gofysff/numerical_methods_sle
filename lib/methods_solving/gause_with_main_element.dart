@@ -18,8 +18,9 @@ class GauseWithMainElement extends SystemLinerEquations {
     /// [0] - x1, [1] - x2, [2] - x3, ...
     List<int> indexesOfResult = List.generate(n, (index) => index);
     List<double> x = List.filled(n, 0); // list of solutions
-    List<List<double>> matrixA = matrix.data; // data of matrix
-    List<double> b = vectorB; // vector of system of liner equations
+    Matrix tempMatrix = matrix.copy();
+    List<List<double>> matrixA = tempMatrix.data; // data of matrix
+    List<double> b = List.from(vectorB); // vector of system of liner equations
 
     for (int k = 0; k < n; k++) {
       // find indexes of main element in data using getter [rowWithMaxElementByModule] of class [Matrix]
@@ -32,7 +33,8 @@ class GauseWithMainElement extends SystemLinerEquations {
 
       // swap rows in data of matrix using method [swapRows] of class [Matrix]
       if (k < indexMaxRow) {
-        matrix.swapRows(k, indexMaxRow);
+        tempMatrix.swapRows(k, indexMaxRow);
+
         // swap elements in vector of system of liner equations
         double temp = b[k];
         b[k] = b[indexMaxRow];
@@ -40,17 +42,15 @@ class GauseWithMainElement extends SystemLinerEquations {
         // print('swapped rows: $k and $indexMax');
       }
 
-      // int indexMaxColumn =
-      //     matrix.findColumnWithMaxElementInRowK(k, beginIndColumn: k);
-
       if (k < indexMaxColumn) {
         //swap data in colums of indexes of result
         int temp = indexesOfResult[k];
         indexesOfResult[k] = indexesOfResult[indexMaxColumn];
         indexesOfResult[indexMaxColumn] = temp;
         // swap columns in data of matrix
-        matrix.swapColumns(k, indexMaxColumn);
+        tempMatrix.swapColumns(k, indexMaxColumn);
       }
+      matrixA = tempMatrix.data;
 
       // find coefficients of equations and free members of equations
       // i = k + 1 because we don't wanna subststitute this row
@@ -70,8 +70,8 @@ class GauseWithMainElement extends SystemLinerEquations {
         b[i] -= coefficient * b[k]; // find free member of equation
         // Matrix(matrixA).printMatrix();
       }
-      print('after changing: ');
-      matrix.printMatrix();
+      // print('after changing: ');
+      // matrix.printMatrix();
     }
 
     //? uncomment  line beneath to see matrix after Gause method
@@ -102,6 +102,11 @@ class GauseWithMainElement extends SystemLinerEquations {
     // rearrange order of solutions according to indexes of result
     // print(x);
     // print(indexesOfResult);
+
+    // print('Initial A');
+    // matrix.printMatrix();
+    // print('Initial b');
+    // print('$vectorB');
     List<double> result = List.filled(n, 0);
     for (int i = 0; i < n; i++) {
       result[indexesOfResult[i]] = x[i];
