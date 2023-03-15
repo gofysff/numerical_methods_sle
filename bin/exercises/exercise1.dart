@@ -1,7 +1,8 @@
 import 'package:number_methods/methods_solving/gause_with_main_element_method.dart';
 import 'package:number_methods/input_data/exercises_transformed_data.dart';
 
-void firstNumber() {
+void exercise1() {
+  print('This is Gause method');
   GauseWithMainElement systemFirst =
       GauseWithMainElement.fromSystemInput(system1);
   List<double> solution = systemFirst.solution();
@@ -24,8 +25,9 @@ void firstNumber() {
   print('Solution of the third system: $solution');
   dicrepancy = systemThird.dicrepancy(solution);
   print('Dicrepancy of the third system: $dicrepancy');
+  print('\n\n');
 }
 
 void main(List<String> arguments) {
-  firstNumber();
+  exercise1();
 }
