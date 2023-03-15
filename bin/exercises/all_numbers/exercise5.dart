@@ -1,5 +1,4 @@
-import 'package:number_methods/input_data/exercises_transformed_data.dart';
-import 'package:number_methods/methods_solving/yacobi_method.dart';
+part of exercises;
 
 void exercise5() {
   print('This is simple iteration method');

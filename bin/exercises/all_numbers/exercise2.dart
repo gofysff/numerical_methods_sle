@@ -1,5 +1,4 @@
-import 'package:number_methods/input_data/exercises_transformed_data.dart';
-import 'package:number_methods/methods_solving/lu_decomposrition_method.dart';
+part of exercises;
 
 void exercise2() {
   print('this is LU decomposition method');
@@ -11,8 +10,4 @@ void exercise2() {
   double dicrepancy = system.dicrepancy(solution);
   print('dicrepancy of solution is $dicrepancy');
   print('\n\n');
-}
-
-void main(List<String> arguments) {
-  exercise2();
 }

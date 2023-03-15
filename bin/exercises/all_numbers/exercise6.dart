@@ -1,5 +1,4 @@
-import 'package:number_methods/input_data/exercises_transformed_data.dart';
-import 'package:number_methods/methods_solving/zeidel_method.dart';
+part of exercises;
 
 void exercise6() {
   print('this is Zeidel method');

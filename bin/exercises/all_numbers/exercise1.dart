@@ -1,5 +1,4 @@
-import 'package:number_methods/methods_solving/gause_with_main_element_method.dart';
-import 'package:number_methods/input_data/exercises_transformed_data.dart';
+part of exercises;
 
 void exercise1() {
   print('This is Gause method');
