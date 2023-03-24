@@ -68,6 +68,12 @@ class LUDecomposition extends SystemLinerEquations {
     List<Matrix> triangules = triangulesHolecky;
     Matrix lower = triangules[0];
     Matrix upper = triangules[1];
+
+    print('lower triangular');
+    lower.printMatrix();
+
+    print('upper matrix');
+    upper.printMatrix();
     List<double> y = List.generate(n, (i) => 0.0);
     List<double> x = List.generate(n, (i) => 0.0);
     // solving system Ly = b

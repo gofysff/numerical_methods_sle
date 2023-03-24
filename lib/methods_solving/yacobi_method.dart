@@ -17,6 +17,8 @@ class YacobiMethod extends SystemLinerEquations {
     a = recombinated.matrix;
     List<double> b = recombinated.vectorB;
 
+    a.printMatrix();
+    print('b is $b');
     Matrix d = Matrix(List.generate(n, (index) => List.filled(n, 0.0)));
     Matrix dReversed = Matrix(List.generate(n, (index) => List.filled(n, 0.0)));
     Matrix f = Matrix(List.generate(n, (index) => List.filled(n, 0.0)));
@@ -41,10 +43,12 @@ class YacobiMethod extends SystemLinerEquations {
 
     while (true) {
       counter++;
+
       xCurrent = c * xPrevious + dSmall;
-
+      print('iteration $counter');
+      xCurrent.printMatrix();
       double normC = c.normCommon;
-
+      // print('norm c is $normC');
       if (normC / (1 - normC) * (xCurrent - xPrevious).normCommon < eps!) {
         break;
       }

@@ -47,11 +47,11 @@ class LLTDecomposition extends SystemLinerEquations {
     List<double> x = List.filled(n, 0);
     // find solutions
 
-    // print('Lower triangular matrix:');
-    // lower.printMatrix();
+    print('Lower triangular matrix:');
+    lower.printMatrix();
 
-    // print('Lower transposed matrix:');
-    // lowerTransposed.printMatrix();
+    print('Lower transposed matrix:');
+    lowerTransposed.printMatrix();
 
     // same logic as in [LUDecomposition] class
     // Обратный ход (Поиск решений) (Нижнетреугольная)

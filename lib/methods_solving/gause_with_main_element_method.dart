@@ -75,8 +75,8 @@ class GauseWithMainElement extends SystemLinerEquations {
     }
 
     //? uncomment  line beneath to see matrix after Gause method
-    // print('Matrix A after Gause method: ');
-    // Matrix(matrixA).printMatrix();
+    print('Matrix A after Gause method: ');
+    Matrix(matrixA).printMatrix();
 
     // find solutions of system of liner equations
 

@@ -35,6 +35,11 @@ class SweepMethod extends SystemLinerEquations {
     u[n - 1] = (matr[n - 1][n - 2] * u[n - 2] - vectorB[n - 1]) /
         (-matr[n - 1][n - 1] - matr[n - 1][n - 2] * v[n - 2]);
 
+    print('c is');
+    print(v);
+
+    print('d is');
+    print(u);
     // reverse steps
     x[n - 1] = u[n - 1];
     for (int i = n - 1; i > 0; i--) {
